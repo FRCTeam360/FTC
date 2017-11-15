@@ -141,7 +141,7 @@ public class MainDrive3860 extends OpMode
 
         } else {
 
-            leftDrive.setPower(0);
+            liftDrive.setPower(0);
 
         }
 
