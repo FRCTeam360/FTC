@@ -110,9 +110,9 @@ public class Basic_Auto_For_Real extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         sleep(3000);
-        encoderDrive(.5, 1, 0, 25, 25, 0, 10.0); // S1: Forward 80 Inches with 3 Sec timeout
+        encoderDrive(1 , .2, 0, 35, 35, 0, 10.0); // S1: Forward 80 Inches with 3 Sec timeout
         sleep(3000);
-        encoderDrive(0, 0, 1, 0, 0, 50, 10.0);  // S2: Go sideways 50 Inches with 10 Sec timeout
+        encoderDrive(0, 0, 1, 0, 0, 10, 10.0);  // S2: Go sideways 50 Inches with 10 Sec timeout
         sleep(3000);
         encoderDrive(1, 1, 0, -4, -4, 0, 10.0);  // S3: Reverse 4 Inches with 4 Sec timeout
 
