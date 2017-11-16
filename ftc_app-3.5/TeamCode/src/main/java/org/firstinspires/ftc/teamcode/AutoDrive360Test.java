@@ -1,21 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.widget.Switch;
-
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.Locale;
 import static android.os.SystemClock.sleep;
 
 
 /**
  * Created by Gavin on 11/14/2017.
- * I just want to say that the way that java handles strings is absolute crap.
  */
 
 @Autonomous(name="Auto Drive 360 Test", group="Linear Opmode")
@@ -35,6 +37,43 @@ public class AutoDrive360Test extends OpMode {
     Servo leftArm;
     Servo rightArm;
     Servo jemArm;
+
+    ColorSensor sensorColor;
+    DistanceSensor sensorDistance;
+
+    public void testProgram(){
+        String left = "left";
+        String right = "right";
+        String forward = "forward";
+        String back = "back";
+        String rightArm = "rightArm";
+        String leftArm = "leftArm";
+        String jemArm = "jemArm";
+
+        drive(500, 1, 500, false, left);
+        drive(500, 1, 500, false, back);
+        drive(500, 1, 500, false, right);
+        drive(500, 1, 500, false, forward);
+        servo(500, 0, jemArm);
+        servo(500, 1, jemArm);
+        servo(500, 0, jemArm);
+        servo(500, 0, rightArm);
+        servo(500, 1, rightArm);
+        servo(500, 0, rightArm);
+        servo(500, 0, leftArm);
+        servo(500, 1, leftArm);
+        servo(500, 0, leftArm);
+
+    }
+
+    public void colerDistance() {
+        float hsvValues[] = {0F, 0F, 0F};
+        final double SCALE_FACTOR = 255;
+        int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
+        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+        telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
+        telemetry.update();
+    }
 
     public void telemetryStatus(int choice){
         if (choice == 1) {
@@ -78,6 +117,35 @@ public class AutoDrive360Test extends OpMode {
         Motor2.setPower(Motor2Power);
         Motor3.setPower(Motor3Power);
 
+    }
+
+    public void servo(int timeafterval, double pos, String servoSelection) {
+
+        int choice = 0;
+
+        if (servoSelection == "rightArm") {
+            choice = 1;
+        } else if (servoSelection == "leftArm") {
+            choice = 2;
+        } else if (servoSelection == "jemArm") {
+            choice = 3;
+        } else {
+            telemetry.addLine("You can not have a null direction");
+            telemetry.update();
+        }
+
+        switch (choice) {
+            case 1:
+                rightArm.setPosition(pos);
+                break;
+            case 2:
+                leftArm.setPosition(pos);
+                break;
+            case 3:
+                jemArm.setPosition(pos);
+                break;
+        }
+        sleep(timeafterval);
     }
 
 
@@ -238,6 +306,8 @@ public class AutoDrive360Test extends OpMode {
         Motor2 = hardwareMap.get(DcMotor.class, "motor3");
         Motor3 = hardwareMap.get(DcMotor.class, "motor4");
         ArmLift = hardwareMap.get(DcMotor.class, "motor5");
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensor");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor");
         rightArm = hardwareMap.servo.get("rightArm");
         leftArm = hardwareMap.servo.get("leftArm");
         jemArm = hardwareMap.servo.get("jemArm");
@@ -246,22 +316,28 @@ public class AutoDrive360Test extends OpMode {
         Motor1.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor2.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor3.setDirection(DcMotorSimple.Direction.FORWARD);
-        //Wait For Robot To Be Initialized
 
     }
 
     @Override
     public void loop() {
-    //Don't Delete This. Strings in Java are super clunky without them
+
+        //Don't Delete This
     //Possible directions
         String left = "left";
         String right = "right";
         String forward = "forward";
         String back = "back";
+    //Servo Choices
+        String rightArm = "rightArm";
+        String leftArm = "leftArm";
+        String jemArm = "jemArm";
     //Write Drive Code Here
-    //Syntax for Drive Function == drive(timeval (int), power (double), aftertimeval (int), angleDrive (boolean), direction (string);
+    //Syntax for drive Function == drive(timeval (int), power (double), aftertimeval (int), angleDrive (boolean), direction (string);
+    //Syntax for servo Function == servo(aftertimeval (int), pos (int), servoSelection (String);
 
-        drive(500, 1, 500, false, left);
+        testProgram();
+        colerDistance();
 
     }
 }
