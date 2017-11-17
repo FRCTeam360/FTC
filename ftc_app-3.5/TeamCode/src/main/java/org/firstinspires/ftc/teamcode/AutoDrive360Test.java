@@ -37,34 +37,10 @@ public class AutoDrive360Test extends OpMode {
     Servo leftArm;
     Servo rightArm;
     Servo jemArm;
-
+/*
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
 
-    public void testProgram(){
-        String left = "left";
-        String right = "right";
-        String forward = "forward";
-        String back = "back";
-        String rightArm = "rightArm";
-        String leftArm = "leftArm";
-        String jemArm = "jemArm";
-
-        drive(500, 1, 500, false, left);
-        drive(500, 1, 500, false, back);
-        drive(500, 1, 500, false, right);
-        drive(500, 1, 500, false, forward);
-        servo(500, 0, jemArm);
-        servo(500, 1, jemArm);
-        servo(500, 0, jemArm);
-        servo(500, 0, rightArm);
-        servo(500, 1, rightArm);
-        servo(500, 0, rightArm);
-        servo(500, 0, leftArm);
-        servo(500, 1, leftArm);
-        servo(500, 0, leftArm);
-
-    }
 
     public void colerDistance() {
         float hsvValues[] = {0F, 0F, 0F};
@@ -74,7 +50,7 @@ public class AutoDrive360Test extends OpMode {
         telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
         telemetry.update();
     }
-
+*/
     public void telemetryStatus(int choice){
         if (choice == 1) {
             telemetry.addLine("Current Instruction: Left");
@@ -119,33 +95,25 @@ public class AutoDrive360Test extends OpMode {
 
     }
 
-    public void servo(int timeafterval, double pos, String servoSelection) {
-
-        int choice = 0;
-
-        if (servoSelection == "rightArm") {
-            choice = 1;
-        } else if (servoSelection == "leftArm") {
-            choice = 2;
-        } else if (servoSelection == "jemArm") {
-            choice = 3;
-        } else {
-            telemetry.addLine("You can not have a null direction");
-            telemetry.update();
-        }
+    public void servoControl(double pos, int choice) {
 
         switch (choice) {
             case 1:
                 rightArm.setPosition(pos);
-                break;
+                if (rightArm.getPosition() == pos){
+                    break;
+                }
             case 2:
                 leftArm.setPosition(pos);
-                break;
+                if (leftArm.getPosition() == pos){
+                    break;
+                }
             case 3:
                 jemArm.setPosition(pos);
-                break;
+                if (jemArm.getPosition() == pos){
+                    break;
+                }
         }
-        sleep(timeafterval);
     }
 
 
@@ -180,6 +148,7 @@ public class AutoDrive360Test extends OpMode {
                     Motor3.setPower(-Motor3Power);
                     telemetryStatus(1);
                     sleep(timeval);
+                    KillMotors();
                     break;
                 case 2:
                     Motor0.setPower(-Motor0Power);
@@ -188,6 +157,7 @@ public class AutoDrive360Test extends OpMode {
                     Motor3.setPower(Motor3Power);
                     telemetryStatus(2);
                     sleep(timeval);
+                    KillMotors();;
                     break;
                 case 3:
                     Motor0.setPower(Motor0Power);
@@ -196,6 +166,7 @@ public class AutoDrive360Test extends OpMode {
                     Motor3.setPower(-Motor3Power);
                     telemetryStatus(3);
                     sleep(timeval);
+                    KillMotors();
                     break;
                 case 4:
                     Motor0.setPower(-Motor0Power);
@@ -204,95 +175,44 @@ public class AutoDrive360Test extends OpMode {
                     Motor3.setPower(Motor3Power);
                     telemetryStatus(4);
                     sleep(timeval);
+                    KillMotors();
                     break;
             }
         }
-        if (angleDrive == true){
-            switch (choice){
+        if (angleDrive == true) {
+            switch (choice) {
                 case 1:
                     Motor0.setPower(Motor0Power);
                     Motor1.setPower(-Motor1Power);
                     telemetryStatus(5);
                     sleep(timeval);
+                    KillMotors();
                     break;
                 case 2:
                     Motor0.setPower(-Motor0Power);
                     Motor1.setPower(Motor1Power);
                     telemetryStatus(6);
                     sleep(timeval);
+                    KillMotors();
                     break;
                 case 3:
                     Motor2.setPower(Motor2Power);
                     Motor3.setPower(-Motor3Power);
                     telemetryStatus(7);
                     sleep(timeval);
+                    KillMotors();
                     break;
                 case 4:
                     Motor2.setPower(-Motor2Power);
                     Motor3.setPower(Motor3Power);
                     telemetryStatus(8);
                     sleep(timeval);
+                    KillMotors();
                     break;
             }
         }
-        KillMotors();
         sleep(timeafterval);
     }
-    //Not Intended to be used anymore (Use at your own risk)
-    public void MovementX(int timeval, double power, boolean direction) {
-        if (direction == true) {
-            Motor0Power = power;
-            Motor1Power = power;
-            Motor2Power = power;
-            Motor3Power = power;
-            //set speed
-            Motor0.setPower(-Motor0Power);
-            Motor1.setPower(-Motor1Power);
-            Motor2.setPower(Motor2Power);
-            Motor3.setPower(Motor3Power);
-            sleep(timeval);
-        }
-        if (direction == false) {
-            Motor0Power = power;
-            Motor1Power = power;
-            Motor2Power = power;
-            Motor3Power = power;
-            //set speed
-            Motor0.setPower(Motor0Power);
-            Motor1.setPower(Motor1Power);
-            Motor2.setPower(-Motor2Power);
-            Motor3.setPower(-Motor3Power);
-            sleep(timeval);
-        }
-    }
-
-    public void MovementY(int timeval, double power, boolean direction) {
-        if (direction == true) {
-            Motor0Power = power;
-            Motor1Power = power;
-            Motor2Power = power;
-            Motor3Power = power;
-            //set speed
-            Motor0.setPower(Motor0Power);
-            Motor1.setPower(-Motor1Power);
-            Motor2.setPower(Motor2Power);
-            Motor3.setPower(-Motor3Power);
-            sleep(timeval);
-        }
-        if (direction == false) {
-            Motor0Power = power;
-            Motor1Power = power;
-            Motor2Power = power;
-            Motor3Power = power;
-            //set speed
-            Motor0.setPower(-Motor0Power);
-            Motor1.setPower(Motor1Power);
-            Motor2.setPower(-Motor2Power);
-            Motor3.setPower(Motor3Power);
-            sleep(timeval);
-        }
-    }
-
 
     @Override
     public void init() {
@@ -306,8 +226,8 @@ public class AutoDrive360Test extends OpMode {
         Motor2 = hardwareMap.get(DcMotor.class, "motor3");
         Motor3 = hardwareMap.get(DcMotor.class, "motor4");
         ArmLift = hardwareMap.get(DcMotor.class, "motor5");
-        sensorColor = hardwareMap.get(ColorSensor.class, "sensor");
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor");
+        //sensorColor = hardwareMap.get(ColorSensor.class, "sensor");
+        //sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor");
         rightArm = hardwareMap.servo.get("rightArm");
         leftArm = hardwareMap.servo.get("leftArm");
         jemArm = hardwareMap.servo.get("jemArm");
@@ -328,16 +248,24 @@ public class AutoDrive360Test extends OpMode {
         String right = "right";
         String forward = "forward";
         String back = "back";
-    //Servo Choices
-        String rightArm = "rightArm";
-        String leftArm = "leftArm";
-        String jemArm = "jemArm";
     //Write Drive Code Here
     //Syntax for drive Function == drive(timeval (int), power (double), aftertimeval (int), angleDrive (boolean), direction (string);
-    //Syntax for servo Function == servo(aftertimeval (int), pos (int), servoSelection (String);
+    //Syntax for servo Function == servo(aftertimeval (int), pos (int), choice (String);
 
-        testProgram();
-        colerDistance();
+        servoControl(0, 1);
+        servoControl(1, 2);
+        servoControl(0, 3);
+        sleep(1000);
+        drive(500, 1, 500, false, left);
+        drive(500, 1, 500, false, back);
+        drive(500, 1, 500, false, right);
+        drive(500, 1, 500, false, forward);
+        sleep(1000);
+        servoControl(1, 1);
+        servoControl(0, 2);
+        servoControl(1, 3);
+
+
 
     }
 }
