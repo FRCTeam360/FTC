@@ -51,36 +51,6 @@ public class AutoDrive360Test extends OpMode {
         telemetry.update();
     }
 */
-    public void telemetryStatus(int choice){
-        if (choice == 1) {
-            telemetry.addLine("Current Instruction: Left");
-            telemetry.update();
-        } else if (choice == 2) {
-            telemetry.addLine("Current Instruction: Right");
-            telemetry.update();
-        } else if (choice == 3) {
-            telemetry.addLine("Current Instruction: Forward");
-            telemetry.update();
-        } else if (choice == 4) {
-            telemetry.addLine("Current Instruction: Backwards");
-            telemetry.update();
-        } else if (choice == 5) {
-            telemetry.addLine("Current Instruction: Left Angle");
-            telemetry.update();
-        } else if (choice == 6) {
-            telemetry.addLine("Current Instruction: Right Angle");
-            telemetry.update();
-        } else if (choice == 7) {
-            telemetry.addLine("Current Instruction: Forward Angle");
-            telemetry.update();
-        } else if (choice == 8) {
-            telemetry.addLine("Current Instruction: Backwards Angle");
-            telemetry.update();
-        } else {
-            telemetry.addLine("You can not have a null direction");
-            telemetry.update();
-        }
-    }
 
     public void KillMotors() {
 
@@ -95,44 +65,33 @@ public class AutoDrive360Test extends OpMode {
 
     }
 
-    public void servoControl(double pos, int choice) {
+
+    public void servoControl(double pos, int choice, int sleep) {
 
         switch (choice) {
             case 1:
                 rightArm.setPosition(pos);
                 if (rightArm.getPosition() == pos){
+                    sleep(sleep);
                     break;
                 }
             case 2:
                 leftArm.setPosition(pos);
                 if (leftArm.getPosition() == pos){
+                    sleep(sleep);
                     break;
                 }
             case 3:
                 jemArm.setPosition(pos);
                 if (jemArm.getPosition() == pos){
+                    sleep(sleep);
                     break;
                 }
         }
     }
 
 
-    public void drive(int timeval, double power, int timeafterval, boolean angleDrive, String direction) {
-
-        int choice = 0;
-
-        if (direction == "left") {
-            choice = 1;
-        } else if (direction == "right") {
-            choice = 2;
-        } else if (direction == "forward") {
-            choice = 3;
-        } else if (direction == "back") {
-            choice = 4;
-        } else {
-            telemetry.addLine("You can not have a null direction");
-            telemetry.update();
-        }
+    public void drive(int timeval, int timeafterval,  double power, boolean angleDrive, int choice) {
 
         Motor0Power = power;
         Motor1Power = power;
@@ -146,36 +105,24 @@ public class AutoDrive360Test extends OpMode {
                     Motor1.setPower(-Motor1Power);
                     Motor2.setPower(Motor2Power);
                     Motor3.setPower(-Motor3Power);
-                    telemetryStatus(1);
-                    sleep(timeval);
-                    KillMotors();
                     break;
                 case 2:
                     Motor0.setPower(-Motor0Power);
                     Motor1.setPower(Motor1Power);
                     Motor2.setPower(-Motor2Power);
                     Motor3.setPower(Motor3Power);
-                    telemetryStatus(2);
-                    sleep(timeval);
-                    KillMotors();;
                     break;
                 case 3:
                     Motor0.setPower(Motor0Power);
                     Motor1.setPower(Motor1Power);
                     Motor2.setPower(-Motor2Power);
                     Motor3.setPower(-Motor3Power);
-                    telemetryStatus(3);
-                    sleep(timeval);
-                    KillMotors();
                     break;
                 case 4:
                     Motor0.setPower(-Motor0Power);
                     Motor1.setPower(-Motor1Power);
                     Motor2.setPower(Motor2Power);
                     Motor3.setPower(Motor3Power);
-                    telemetryStatus(4);
-                    sleep(timeval);
-                    KillMotors();
                     break;
             }
         }
@@ -184,34 +131,25 @@ public class AutoDrive360Test extends OpMode {
                 case 1:
                     Motor0.setPower(Motor0Power);
                     Motor1.setPower(-Motor1Power);
-                    telemetryStatus(5);
-                    sleep(timeval);
-                    KillMotors();
                     break;
                 case 2:
                     Motor0.setPower(-Motor0Power);
                     Motor1.setPower(Motor1Power);
-                    telemetryStatus(6);
-                    sleep(timeval);
-                    KillMotors();
                     break;
                 case 3:
                     Motor2.setPower(Motor2Power);
                     Motor3.setPower(-Motor3Power);
-                    telemetryStatus(7);
-                    sleep(timeval);
-                    KillMotors();
                     break;
                 case 4:
                     Motor2.setPower(-Motor2Power);
                     Motor3.setPower(Motor3Power);
-                    telemetryStatus(8);
-                    sleep(timeval);
-                    KillMotors();
                     break;
             }
         }
+        sleep(timeval);
+        KillMotors();
         sleep(timeafterval);
+        return;
     }
 
     @Override
@@ -241,31 +179,7 @@ public class AutoDrive360Test extends OpMode {
 
     @Override
     public void loop() {
-
-        //Don't Delete This
-    //Possible directions
-        String left = "left";
-        String right = "right";
-        String forward = "forward";
-        String back = "back";
-    //Write Drive Code Here
-    //Syntax for drive Function == drive(timeval (int), power (double), aftertimeval (int), angleDrive (boolean), direction (string);
-    //Syntax for servo Function == servo(aftertimeval (int), pos (int), choice (String);
-
-        servoControl(0, 1);
-        servoControl(1, 2);
-        servoControl(0, 3);
-        sleep(1000);
-        drive(500, 1, 500, false, left);
-        drive(500, 1, 500, false, back);
-        drive(500, 1, 500, false, right);
-        drive(500, 1, 500, false, forward);
-        sleep(1000);
-        servoControl(1, 1);
-        servoControl(0, 2);
-        servoControl(1, 3);
-
-
-
+        drive(1000, 1000,  1, false, 1);
+        drive(1000, 1000,  1, false, 2);
     }
 }
