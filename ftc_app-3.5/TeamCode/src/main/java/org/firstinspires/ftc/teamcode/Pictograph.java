@@ -68,7 +68,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * is explained in {@link ConceptVuforiaNavigation}.
  */
 
-@Autonomous(name="Concept: VuMark Id", group ="Concept")
+@Autonomous(name="Auto with Pictograph", group ="Concept")
 
 public class Pictograph extends LinearOpMode {
 
@@ -171,19 +171,37 @@ public class Pictograph extends LinearOpMode {
 
                 if (vuMark == RelicRecoveryVuMark.RIGHT){
 
-                    encoderDrive(1 , .2, 35, 35, 10.0); // S1: Forward 80 Inches with 3 Sec timeout
+                    telemetry.addLine("Right");
+
+                    encoderDrive(1 , 1, 15, 15, 10.0); // S1: Forward 80 Inches with 3 Sec timeout
 
                 }
 
-                if (vuMark == RelicRecoveryVuMark.LEFT){
+                else if (vuMark == RelicRecoveryVuMark.LEFT){
+
+                    telemetry.addLine("Left");
 
                     encoderDrive(1, 1, 5, 10, 10.0);
 
                 }
 
-                if (vuMark == RelicRecoveryVuMark.CENTER){
+                else if (vuMark == RelicRecoveryVuMark.CENTER){
+
+                    telemetry.addLine("Center");
 
                     encoderDrive(1, 1, 4, -4, 10.0);
+
+                }
+
+                else if (vuMark == RelicRecoveryVuMark.UNKNOWN){
+
+                    encoderDrive(1, 1, 10, 20, 10.0);
+
+                }
+
+                else {
+
+
 
                 }
 
