@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,6 +14,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import java.util.Locale;
+
+import static android.os.SystemClock.elapsedRealtime;
 import static android.os.SystemClock.sleep;
 
 
@@ -22,8 +25,9 @@ import static android.os.SystemClock.sleep;
 
 @Autonomous(name="Auto Drive 360 Test", group="Linear Opmode")
 
-public class AutoDrive360Test extends OpMode {
+public class AutoDrive360Test extends LinearOpMode {
 
+    private ElapsedTime runtime = new ElapsedTime();
     double Motor0Power;
     double Motor1Power;
     double Motor2Power;
@@ -37,36 +41,60 @@ public class AutoDrive360Test extends OpMode {
     Servo leftArm;
     Servo rightArm;
     Servo jemArm;
-/*
+
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
 
+    public void armGrip(int direction) {
+        switch (direction){
+            case 1:
+                servo(-1, 2, 500);
+                servo(1, 3, 500);
+                break;
+            case 2:
+                servo(-1, 2, 500);
+                servo(1, 3, 500);
+                break;
+        }
 
-    public void colerDistance() {
-        float hsvValues[] = {0F, 0F, 0F};
-        final double SCALE_FACTOR = 255;
-        int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
-        final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
-        telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
-        telemetry.update();
     }
-*/
+
+
+    public void colorDistance(int runs, int timebetween) {
+
+        int dummy = 0;
+
+        while (dummy <= runs) {
+            float hsvValues[] = {0F, 0F, 0F};
+            final double SCALE_FACTOR = 255;
+            int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
+            final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
+            telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
+            telemetry.update();
+            dummy = dummy + 1;
+            sleep(timebetween);
+        }
+    }
+
 
     public void KillMotors() {
 
-        Motor0Power = 0;
-        Motor1Power = 0;
-        Motor2Power = 0;
-        Motor3Power = 0;
+        double power = -0.01;
+
+        Motor0Power = power;
+        Motor1Power = power;
+        Motor2Power = power;
+        Motor3Power = power;
         Motor0.setPower(Motor0Power);
         Motor1.setPower(Motor1Power);
         Motor2.setPower(Motor2Power);
         Motor3.setPower(Motor3Power);
+        sleep(100);
 
     }
 
 
-    public void servoControl(double pos, int choice, int sleep) {
+    public void servo(double pos, int choice, int sleep) {
 
         switch (choice) {
             case 1:
@@ -153,7 +181,7 @@ public class AutoDrive360Test extends OpMode {
     }
 
     @Override
-    public void init() {
+    public void runOpMode() throws InterruptedException {
 
         telemetry.addData("Current Status", "Initialized");
         telemetry.update();
@@ -164,8 +192,8 @@ public class AutoDrive360Test extends OpMode {
         Motor2 = hardwareMap.get(DcMotor.class, "motor3");
         Motor3 = hardwareMap.get(DcMotor.class, "motor4");
         ArmLift = hardwareMap.get(DcMotor.class, "motor5");
-        //sensorColor = hardwareMap.get(ColorSensor.class, "sensor");
-        //sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor");
+        sensorColor = hardwareMap.get(ColorSensor.class, "sensor");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor");
         rightArm = hardwareMap.servo.get("rightArm");
         leftArm = hardwareMap.servo.get("leftArm");
         jemArm = hardwareMap.servo.get("jemArm");
@@ -175,11 +203,14 @@ public class AutoDrive360Test extends OpMode {
         Motor2.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor3.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    }
+        waitForStart();
 
-    @Override
-    public void loop() {
-        drive(1000, 1000,  1, false, 1);
-        drive(1000, 1000,  1, false, 2);
+        while (opModeIsActive()) {
+            drive(200, 1000,  1, false, 1);
+            drive(200, 1000,  1, false, 2);
+            servo(1, 1, 500);
+            servo(-1, 1, 500);
+
+        }
     }
 }
