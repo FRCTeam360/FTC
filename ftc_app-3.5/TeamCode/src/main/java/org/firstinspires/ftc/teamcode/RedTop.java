@@ -3,29 +3,28 @@ package org.firstinspires.ftc.teamcode;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import java.util.Locale;
 
-import static android.os.SystemClock.elapsedRealtime;
-import static android.os.SystemClock.sleep;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import java.util.Locale;
 
 
 /**
  * Created by Gavin on 11/14/2017.
  */
 
-@Autonomous(name="Auto Drive 360 Test", group="Linear Opmode")
+@Autonomous(name="RED Top", group="Linear Opmode")
 
-public class AutoDrive360Test extends LinearOpMode {
+public class RedTop extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     double Motor0Power;
@@ -41,6 +40,7 @@ public class AutoDrive360Test extends LinearOpMode {
     Servo leftArm;
     Servo rightArm;
     Servo jemArm;
+    Servo blockArm;
 
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
@@ -60,16 +60,25 @@ public class AutoDrive360Test extends LinearOpMode {
     }
 
 
-    public void colorDistance(int runs, int timebetween) {
+    public void colorDistance(int runs, int timebetween, float hsvValues[]) {
 
         int dummy = 0;
+        final double SCALE_FACTOR = 255;
+        final float values[] = hsvValues;
 
         while (dummy <= runs) {
-            float hsvValues[] = {0F, 0F, 0F};
-            final double SCALE_FACTOR = 255;
+            Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
+                    (int) (sensorColor.green() * SCALE_FACTOR),
+                    (int) (sensorColor.blue() * SCALE_FACTOR),
+                    hsvValues);
             int relativeLayoutId = hardwareMap.appContext.getResources().getIdentifier("RelativeLayout", "id", hardwareMap.appContext.getPackageName());
             final View relativeLayout = ((Activity) hardwareMap.appContext).findViewById(relativeLayoutId);
             telemetry.addData("Distance (cm)", String.format(Locale.US, "%.02f", sensorDistance.getDistance(DistanceUnit.CM)));
+            telemetry.addData("Alpha", sensorColor.alpha());
+            telemetry.addData("Red  ", sensorColor.red());
+            telemetry.addData("Green", sensorColor.green());
+            telemetry.addData("Blue ", sensorColor.blue());
+            telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
             dummy = dummy + 1;
             sleep(timebetween);
@@ -78,9 +87,7 @@ public class AutoDrive360Test extends LinearOpMode {
 
 
     public void KillMotors() {
-
-        double power = -0.01;
-
+        double power = 0;
         Motor0Power = power;
         Motor1Power = power;
         Motor2Power = power;
@@ -99,19 +106,25 @@ public class AutoDrive360Test extends LinearOpMode {
         switch (choice) {
             case 1:
                 rightArm.setPosition(pos);
-                if (rightArm.getPosition() == pos){
+                if (rightArm.getPosition() == pos) {
                     sleep(sleep);
                     break;
                 }
             case 2:
                 leftArm.setPosition(pos);
-                if (leftArm.getPosition() == pos){
+                if (leftArm.getPosition() == pos) {
                     sleep(sleep);
                     break;
                 }
             case 3:
                 jemArm.setPosition(pos);
-                if (jemArm.getPosition() == pos){
+                if (jemArm.getPosition() == pos) {
+                    sleep(sleep);
+                    break;
+                }
+            case 4:
+                blockArm.setPosition(pos);
+                if (blockArm.getPosition() == pos) {
                     sleep(sleep);
                     break;
                 }
@@ -185,7 +198,6 @@ public class AutoDrive360Test extends LinearOpMode {
 
         telemetry.addData("Current Status", "Initialized");
         telemetry.update();
-
         //Map The Motors To The Expansion Hub
         Motor0 = hardwareMap.get(DcMotor.class, "motor1");
         Motor1 = hardwareMap.get(DcMotor.class, "motor2");
@@ -197,20 +209,42 @@ public class AutoDrive360Test extends LinearOpMode {
         rightArm = hardwareMap.servo.get("rightArm");
         leftArm = hardwareMap.servo.get("leftArm");
         jemArm = hardwareMap.servo.get("jemArm");
+        blockArm = hardwareMap.servo.get("blockArm");
         //Set Motor Directions
         Motor0.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor1.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor2.setDirection(DcMotorSimple.Direction.FORWARD);
         Motor3.setDirection(DcMotorSimple.Direction.FORWARD);
-
+        float hsvValues[] = {0F, 0F, 0F};
+        boolean colorFound = false;
         waitForStart();
 
         while (opModeIsActive()) {
-            drive(200, 1000,  1, false, 1);
-            drive(200, 1000,  1, false, 2);
-            servo(1, 1, 500);
-            servo(-1, 1, 500);
 
+            servo(.5, 3, 1000);
+            sleep(2100);
+            drive(100, 2000, .5, false, 1);
+
+            while (colorFound == false) {
+                colorDistance(1, 100, hsvValues);
+                if (sensorColor.red() >= 20) {
+                    servo(1, 3, 1000);
+                    colorFound = true;
+                } else if (sensorColor.blue() >= 20) {
+                    servo(0, 3, 1000);
+                    colorFound = true;
+                }
+            }
+
+            drive(200, 1000, .5, false, 2);
+            KillMotors();
+            sleep(1000);
+            drive(1000, 2000, 1, false, 3);
+            KillMotors();
+            sleep(1000);
+            drive(600, 2000, 1, false, 2);
+            KillMotors();
+            servo(0.6, 4, 10000);
         }
     }
 }
