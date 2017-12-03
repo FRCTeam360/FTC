@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 FIRST. All rights reserved.
+ /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -52,7 +52,7 @@ public class MainDrive3860 extends OpMode
 
     private DcMotor rightDrive;
     private DcMotor leftDrive;
-    private DcMotor middleDrive;
+    //private DcMotor middleDrive;
     private DcMotor liftDrive;
 
     /*
@@ -72,7 +72,7 @@ public class MainDrive3860 extends OpMode
         leftArm = hardwareMap.servo.get("leftArm");
         leftDrive = hardwareMap.dcMotor.get("left");
         rightDrive = hardwareMap.dcMotor.get("right");
-        middleDrive = hardwareMap.dcMotor.get("Hdrive");
+        //middleDrive = hardwareMap.dcMotor.get("Hdrive");
         liftDrive = hardwareMap.dcMotor.get("lift");
 
         // Tell the driver that initialization is complete.
@@ -92,7 +92,7 @@ public class MainDrive3860 extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
-        double middlePower;
+        //double middlePower;
         //double liftPower;
         double gp1Rtrigger;
         double gp1Ltrigger;
@@ -123,7 +123,7 @@ public class MainDrive3860 extends OpMode
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         leftPower  = -gamepad1.left_stick_y ;
         rightPower = -gamepad1.right_stick_y;
-        middlePower = -gamepad1.left_stick_x;
+        //middlePower = -gamepad1.left_stick_x;
 
         if (gamepad2.left_stick_y >= 0.3){
 
@@ -145,7 +145,7 @@ public class MainDrive3860 extends OpMode
 
         }
 
-        if (gamepad1.right_trigger >= 0.1) {
+          /*if (gamepad1.right_trigger >= 0.1) {
 
             middleDrive.setPower(-1);
 
@@ -157,7 +157,7 @@ public class MainDrive3860 extends OpMode
 
             middleDrive.setPower(0);
 
-        }
+        }*/
 
 
 
@@ -167,10 +167,10 @@ public class MainDrive3860 extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addLine("FTC 3860 Main Drive Program");
-        telemetry.addLine("Last Updated: 11/4/17");
-        telemetry.addLine("Last Updated By: Gavin");
+        telemetry.addLine("Last Updated: 12/2/17");
+        telemetry.addLine("Last Updated By: Matthew V");
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f), Hdrive(%.2f)", leftPower, rightPower, middlePower);
+        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
         telemetry.addData("GP1 Trigger L: " , gp1Ltrigger);
         telemetry.addData("GP1 Trigger R: " , gp1Rtrigger);
         telemetry.addData("GP2 Trigger L: " , gp2Ltrigger);

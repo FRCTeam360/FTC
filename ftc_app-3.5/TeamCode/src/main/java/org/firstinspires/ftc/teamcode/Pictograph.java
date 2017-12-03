@@ -173,40 +173,47 @@ public class Pictograph extends LinearOpMode {
                     if (vuMark == RelicRecoveryVuMark.RIGHT) {
 
                         telemetry.addLine("Right");
-
+                        telemetry.update();
                         encoderDrive(1, 1, 15, 15, 10.0); // S1: Forward 80 Inches with 3 Sec timeout
+
+                        break;
 
                     } else if (vuMark == RelicRecoveryVuMark.LEFT) {
 
                         telemetry.addLine("Left");
-
+                        telemetry.update();
                         encoderDrive(1, 1, 5, 10, 10.0);
+
+                        break;
 
                     } else if (vuMark == RelicRecoveryVuMark.CENTER) {
 
                         telemetry.addLine("Center");
-
+                        telemetry.update();
                         encoderDrive(1, 1, 4, -4, 10.0);
+
+                        break;
 
                     } else {
 
                         telemetry.addLine("Not Working!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+                        telemetry.update();
+                        break;
                     }
 
-                    telemetry.addData("Path", "Complete");
-                    telemetry.update();
+                    //telemetry.addData("Path", "Complete");
+                    //telemetry.update();
 
 
                     /* For fun, we also exhibit the navigational pose. In the Relic Recovery game,
                     * it is perhaps unlikely that you will actually need to act on this pose information, but
                     * we illustrate it nevertheless, for completeness. */
-                    OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
-                    telemetry.addData("Pose", format(pose));
+                    //OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
+                    //telemetry.addData("Pose", format(pose));
 
                     /* We further illustrate how to decompose the pose into useful rotational and
                     * translational components */
-                    if (pose != null) {
+                    /*if (pose != null) {
                         VectorF trans = pose.getTranslation();
                         Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
@@ -219,13 +226,13 @@ public class Pictograph extends LinearOpMode {
                         double rX = rot.firstAngle;
                         double rY = rot.secondAngle;
                         double rZ = rot.thirdAngle;
-                    }
-                } else {
+                    }*/
+                }
+                else {
                     telemetry.addData("VuMark", "not visible");
+                    telemetry.update();
                 }
             }
-
-            telemetry.update();
         }
     }
 
