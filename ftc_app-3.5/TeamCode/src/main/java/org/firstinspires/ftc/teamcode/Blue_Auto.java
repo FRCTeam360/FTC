@@ -36,7 +36,7 @@ public class Blue_Auto extends LinearOpMode {
     Servo leftArm;
     Servo rightArm;
     Servo jemArm;
-    Servo jem2Arm;
+    Servo colorArm;
     //Servo blockArm;
 
     ColorSensor sensorColor;
@@ -116,8 +116,8 @@ public class Blue_Auto extends LinearOpMode {
                     break;
                 }
             case 4:
-                jem2Arm.setPosition(pos);
-                if (jem2Arm.getPosition() == pos) {
+                colorArm.setPosition(pos);
+                if (colorArm.getPosition() == pos) {
                     sleep(sleep);
                     break;
                 }
@@ -170,7 +170,7 @@ public class Blue_Auto extends LinearOpMode {
         rightArm = hardwareMap.servo.get("rightArm");
         leftArm = hardwareMap.servo.get("leftArm");
         jemArm = hardwareMap.servo.get("jemArm");
-        jem2Arm = hardwareMap.servo.get("colorArm");
+        colorArm = hardwareMap.servo.get("colorArm");
 
         //Set Motor Directions
         leftDrive.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -179,7 +179,7 @@ public class Blue_Auto extends LinearOpMode {
         float hsvValues[] = {0F, 0F, 0F};
         boolean colorFound = false;
 
-        telemetry.addData("Data", jem2Arm.getPosition());
+        telemetry.addData("Data", colorArm.getPosition());
         telemetry.update();
 
 
@@ -189,25 +189,40 @@ public class Blue_Auto extends LinearOpMode {
         while (opModeIsActive()) {
 
             telemetry.addData("Jem arm position", jemArm.getPosition());
-            telemetry.addData("Color arm position", jem2Arm.getPosition());
+            telemetry.addData("Color arm position", colorArm.getPosition());
             telemetry.update();
             sleep(3000);
             //drive(100, 3000, .5, 1);
 
-            servo(1, 4, 1000);
-            sleep(1000);
-            servo(-.5, 3, 1000);
-            sleep(1000);
+            servo(0.7, 3, 1000);
+            telemetry.addLine("First");
+            telemetry.addData("Jem arm position", jemArm.getPosition());
+            telemetry.addData("Color arm position", colorArm.getPosition());
+            telemetry.update();
+            sleep(3000);
+
+            servo(0.5, 4, 1000);
+            telemetry.addLine("Second");
+            telemetry.addData("Jem arm position", jemArm.getPosition());
+            telemetry.addData("Color arm position", colorArm.getPosition());
+            telemetry.update();
+            sleep(3000);
 
             while (colorFound == false && opModeIsActive()) {
                 colorDistance(1, 100, hsvValues);
                 if (sensorColor.red() >= 20) {
-                    servo(.5, 3, 1000);
+                    telemetry.addLine("Red");
+                    telemetry.update();
+                    sleep(3000);
+                    servo(1, 3, 1000);
                     //servo(1, 4, 1000);
+
                     colorFound = true;
                 }
                 else if (sensorColor.blue() >= 20) {
-                    servo(-.5, 3, 1000);
+                    telemetry.addLine("Blue");
+                    telemetry.update();
+                    servo(0, 3, 1000);
                     //servo(1, 4, 1000);
                     colorFound = true;
                 }
