@@ -224,25 +224,15 @@ public class BlueTop extends LinearOpMode {
             servo(.5, 3, 1000);
             sleep(2100);
             drive(100, 2000, .5, false, 1);
+            KillMotors();
 
             while (colorFound == false) {
                 colorDistance(1, 100, hsvValues);
-                if (sensorColor.blue() >= 20) {
-                    servo(1, 3, 1000);
-                    telemetry.addData("Red  ", sensorColor.red());
-                    telemetry.addData("Green", sensorColor.green());
-                    telemetry.addData("Blue ", sensorColor.blue());
-                    telemetry.addData("Hue", hsvValues[0]);
-                    telemetry.update();
-                    colorFound = true;
-                }
                 if (sensorColor.red() >= 20) {
                     servo(0, 3, 1000);
-                    telemetry.addData("Red  ", sensorColor.red());
-                    telemetry.addData("Green", sensorColor.green());
-                    telemetry.addData("Blue ", sensorColor.blue());
-                    telemetry.addData("Hue", hsvValues[0]);
-                    telemetry.update();
+                    colorFound = true;
+                } else if (sensorColor.blue() >= 20) {
+                    servo(1, 3, 1000);
                     colorFound = true;
                 }
             }
@@ -253,10 +243,9 @@ public class BlueTop extends LinearOpMode {
             drive(1000, 2000, 1, false, 4);
             KillMotors();
             sleep(1000);
-            drive(600, 2000, 1, false, 1);
+            drive(200, 2000, 1, false, 2);
             KillMotors();
-            sleep(1000);
-            servo(0.6, 4, 10000);
+            servo(0.8, 4, 10000);
         }
     }
 }

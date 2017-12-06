@@ -67,90 +67,115 @@ public class MainDrive360 extends OpMode {
         gp2Ltrigger = gamepad2.left_trigger;
         gp2Rtrigger = gamepad2.right_trigger;
 
-
-        //Set Stick to Left Stick
-//        double A = Math.sqrt(2);
-//        double B = A / 2;
         Motor0Power = gamepad1.left_stick_y;
         Motor1Power = gamepad1.left_stick_y;
-        //Main Drive (Left Joystick)
-        Motor0.setPower(Motor0Power);
-        Motor1.setPower(Motor1Power);
-        //Set Stick to Right Stick
-        Motor2Power = gamepad1.left_stick_y;
-        Motor3Power = gamepad1.left_stick_y;
-        //Secondary Drive and Turning
-        Motor2.setPower(-Motor2Power);
-        Motor3.setPower(-Motor3Power);
-        //Turning Shortcuts
+        Motor2Power = gamepad1.left_stick_x;
+        Motor3Power = gamepad1.left_stick_x;
 
-        //Right Turn Shortcut
-        TriggerPowerR = gamepad1.right_trigger;
+            if (gamepad1.left_stick_y >= 0.1) {
 
-        if (gamepad1.right_trigger >= 0.1) {
+                Motor0.setPower(Motor0Power);
+                Motor1.setPower(Motor1Power);
+                Motor2.setPower(-Motor2Power);
+                Motor3.setPower(-Motor3Power);
 
-            Motor0.setPower(-TriggerPowerR);
-            Motor1.setPower(-TriggerPowerR);
-            Motor2.setPower(-TriggerPowerR);
-            Motor3.setPower(-TriggerPowerR);
+            } else if (gamepad1.left_stick_y <= -0.1) {
+
+                Motor0.setPower(Motor0Power);
+                Motor1.setPower(Motor1Power);
+                Motor2.setPower(-Motor2Power);
+                Motor3.setPower(-Motor3Power);
+
+            } else if (gamepad1.left_stick_x >= 0.1) {
+
+                Motor0.setPower(Motor0Power);
+                Motor1.setPower(-Motor1Power);
+                Motor2.setPower(Motor2Power);
+                Motor3.setPower(-Motor3Power);
+
+            } else if (gamepad1.left_stick_x <= -0.1) {
+
+                Motor0.setPower(-Motor0Power);
+                Motor1.setPower(Motor1Power);
+                Motor2.setPower(-Motor2Power);
+                Motor3.setPower(Motor3Power);
+
+            } else {
+
+                Motor0.setPower(0);
+                Motor1.setPower(0);
+                Motor2.setPower(0);
+                Motor3.setPower(0);
+
+            }
+
+            //Right Turn Shortcut
+            TriggerPowerR = gamepad1.right_trigger;
+
+            if (gamepad1.right_trigger >= 0.1) {
+
+                Motor0.setPower(-TriggerPowerR);
+                Motor1.setPower(-TriggerPowerR);
+                Motor2.setPower(-TriggerPowerR);
+                Motor3.setPower(-TriggerPowerR);
+
+            }
+            //Left Turn Shortcut
+            TriggerPowerL = gamepad1.left_trigger;
+
+            if (gamepad1.left_trigger >= 0.1) {
+
+                Motor0.setPower(TriggerPowerL);
+                Motor1.setPower(TriggerPowerL);
+                Motor2.setPower(TriggerPowerL);
+                Motor3.setPower(TriggerPowerL);
+            }
+
+            if (gamepad2.right_trigger >= 0.1) {
+
+                rightArm.setPosition(0);
+                leftArm.setPosition(1);
+
+            }
+
+            if (gamepad2.left_trigger >= 0.1) {
+
+                rightArm.setPosition(1);
+                leftArm.setPosition(0);
+
+            }
+
+            if (gamepad2.right_stick_y >= 0.3) {
+
+                ArmLift.setPower(1);
+
+            } else {
+
+                ArmLift.setPower(0);
+
+            }
+
+            if (gamepad2.right_stick_y <= -0.3) {
+
+                ArmLift.setPower(-1);
+
+            } else {
+
+                ArmLift.setPower(0);
+
+            }
+            telemetry.addLine("FTC 360 Main Drive Program");
+            telemetry.addLine("Last Updated: 12/5/17");
+            telemetry.addLine("Last Updated By: Gavin");
+            telemetry.addData("GP1 Trigger L: ", gp1Ltrigger);
+            telemetry.addData("GP1 Trigger R: ", gp1Rtrigger);
+            telemetry.addData("GP2 Trigger L: ", gp2Ltrigger);
+            telemetry.addData("GP2 Trigger R: ", gp2Rtrigger);
+            telemetry.addData("Motor 1:", Motor0Power);
+            telemetry.addData("Motor 2:", Motor1Power);
+            telemetry.addData("Motor 3:", Motor2Power);
+            telemetry.addData("Motor 4:", Motor3Power);
+            telemetry.update();
         }
-        //Left Turn Shortcut
-        TriggerPowerL = gamepad1.left_trigger;
-
-        if (gamepad1.left_trigger >= 0.1) {
-
-            Motor0.setPower(TriggerPowerL);
-            Motor1.setPower(TriggerPowerL);
-            Motor2.setPower(TriggerPowerL);
-            Motor3.setPower(TriggerPowerL);
-        }
-
-        if (gamepad2.right_trigger >= 0.1) {
-
-            rightArm.setPosition(0);
-            leftArm.setPosition(1);
-
-        }
-
-        if (gamepad2.left_trigger >= 0.1) {
-
-            rightArm.setPosition(1);
-            leftArm.setPosition(0);
-
-        }
-
-        if (gamepad2.right_stick_y >= 0.3) {
-
-            ArmLift.setPower(1);
-
-        } else{
-
-            ArmLift.setPower(0);
-
-        }
-
-        if (gamepad2.right_stick_y <= -0.3) {
-
-            ArmLift.setPower(-1);
-
-        } else {
-
-            ArmLift.setPower(0);
-
-        }
-        telemetry.addLine("FTC 360 Main Drive Program");
-        telemetry.addLine("Last Updated: 11/4/17");
-        telemetry.addLine("Last Updated By: Gavin");
-        telemetry.addData("GP1 Trigger L: ", gp1Ltrigger);
-        telemetry.addData("GP1 Trigger R: ", gp1Rtrigger);
-        telemetry.addData("GP2 Trigger L: ", gp2Ltrigger);
-        telemetry.addData("GP2 Trigger R: ", gp2Rtrigger);
-        telemetry.addData("Motor 1:", Motor0Power);
-        telemetry.addData("Motor 2:", Motor1Power);
-        telemetry.addData("Motor 3:", Motor2Power);
-        telemetry.addData("Motor 4:", Motor3Power);
-        telemetry.update();
-
     }
 
-}
