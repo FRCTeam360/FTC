@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.internal.android.dx.command.DxConsole;
 
@@ -51,10 +52,9 @@ public class MainDrive360 extends OpMode {
 
     @Override
     public void loop() {
-        double Motor0Power;
-        double Motor1Power;
-        double Motor2Power;
-        double Motor3Power;
+        float gamepad1LeftY = -gamepad1.left_stick_y;
+        float gamepad1LeftX = gamepad1.left_stick_x;
+        float gamepad1RightX = gamepad1.right_stick_x;
         double TriggerPowerR;
         double TriggerPowerL;
         double gp1Rtrigger;
@@ -67,47 +67,22 @@ public class MainDrive360 extends OpMode {
         gp2Ltrigger = gamepad2.left_trigger;
         gp2Rtrigger = gamepad2.right_trigger;
 
-        Motor0Power = gamepad1.left_stick_y;
-        Motor1Power = gamepad1.left_stick_y;
-        Motor2Power = gamepad1.left_stick_x;
-        Motor3Power = gamepad1.left_stick_x;
+        float FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        float FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
-            if (gamepad1.left_stick_y >= 0.1) {
+        FrontRight = Range.clip(FrontRight, -1, 1);
+        FrontLeft = Range.clip(FrontLeft, -1, 1);
+        BackLeft = Range.clip(BackLeft, -1, 1);
+        BackRight = Range.clip(BackRight, -1, 1);
 
-                Motor0.setPower(Motor0Power);
-                Motor1.setPower(Motor1Power);
-                Motor2.setPower(-Motor2Power);
-                Motor3.setPower(-Motor3Power);
+        //back right on the robot
+        Motor0.setPower(-BackRight);
+        Motor1.setPower(-FrontRight);
+        Motor2.setPower(-BackLeft);
+        Motor3.setPower(-FrontLeft);
 
-            } else if (gamepad1.left_stick_y <= -0.1) {
-
-                Motor0.setPower(Motor0Power);
-                Motor1.setPower(Motor1Power);
-                Motor2.setPower(-Motor2Power);
-                Motor3.setPower(-Motor3Power);
-
-            } else if (gamepad1.left_stick_x >= 0.1) {
-
-                Motor0.setPower(Motor0Power);
-                Motor1.setPower(-Motor1Power);
-                Motor2.setPower(Motor2Power);
-                Motor3.setPower(-Motor3Power);
-
-            } else if (gamepad1.left_stick_x <= -0.1) {
-
-                Motor0.setPower(-Motor0Power);
-                Motor1.setPower(Motor1Power);
-                Motor2.setPower(-Motor2Power);
-                Motor3.setPower(Motor3Power);
-
-            } else {
-
-                Motor0.setPower(0);
-                Motor1.setPower(0);
-                Motor2.setPower(0);
-                Motor3.setPower(0);
-
-            }
 
             //Right Turn Shortcut
             TriggerPowerR = gamepad1.right_trigger;
@@ -171,10 +146,6 @@ public class MainDrive360 extends OpMode {
             telemetry.addData("GP1 Trigger R: ", gp1Rtrigger);
             telemetry.addData("GP2 Trigger L: ", gp2Ltrigger);
             telemetry.addData("GP2 Trigger R: ", gp2Rtrigger);
-            telemetry.addData("Motor 1:", Motor0Power);
-            telemetry.addData("Motor 2:", Motor1Power);
-            telemetry.addData("Motor 3:", Motor2Power);
-            telemetry.addData("Motor 4:", Motor3Power);
             telemetry.update();
         }
     }
