@@ -210,7 +210,7 @@ public class Blue_Auto extends LinearOpMode {
 
             while (colorFound == false && opModeIsActive()) {
                 colorDistance(1, 100, hsvValues);
-                if (sensorColor.red() >= 20) {
+                if (sensorColor.red() >= 20 && sensorColor.red() > sensorColor.blue()) {
                     telemetry.addLine("Red");
                     telemetry.update();
                     sleep(3000);
@@ -219,7 +219,7 @@ public class Blue_Auto extends LinearOpMode {
 
                     colorFound = true;
                 }
-                else if (sensorColor.blue() >= 20) {
+                else if (sensorColor.blue() >= 20 && sensorColor.blue() > sensorColor.red()) {
                     telemetry.addLine("Blue");
                     telemetry.update();
                     servo(0, 3, 1000);
