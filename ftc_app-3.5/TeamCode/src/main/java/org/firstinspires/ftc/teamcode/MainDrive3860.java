@@ -47,13 +47,13 @@ public class MainDrive3860 extends OpMode
    // OpenGLMatrix lastLocation = null;
    // VuforiaLocalizer vuforia;
 
-    Servo rightArm;
-    Servo leftArm;
+    //Servo rightArm;
+    //Servo leftArm;
 
     private DcMotor rightDrive;
     private DcMotor leftDrive;
-    //private DcMotor middleDrive;
-    private DcMotor liftDrive;
+    private DcMotor middleDrive;
+    //private DcMotor liftDrive;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -68,12 +68,12 @@ public class MainDrive3860 extends OpMode
 
        // parameters.vuforiaLicenseKey = "AbIVQOL/////AAAAGZkdkXA/G0ozhlFC64dTobAEKNYrYjGJj1qJRO1pj/9S+bA6tErf1GcodqHqYzSmXse47lIF+SUUJ+tMb3OD6rpDDzHdZWGQ20XWRrVn6wByfph4hPG3bNeyKXHp43D/VltBYxo+EK2J6bnpRLKIaEAhpVdhSSf4BUR86Hvi9Pduy7sswLJUpNbENvgs3AoP+RYh/KYF2CPtfWkM9FQAUIjriW2+6YUoKY62xW0LfUeR1VAUpNsIDsWFAVOZV/cKBplC31tWDuCgd3aKEjEZdBQElKQPu9zore+GsrkFZrhazIkgvULcfPMFaHtG1/LfpcgELIldFu8ITfdDqwYdQgYFJZlwlz433Blajj7xDYdT";
 
-        rightArm = hardwareMap.servo.get("rightArm");
-        leftArm = hardwareMap.servo.get("leftArm");
+        //rightArm = hardwareMap.servo.get("rightArm");
+        //leftArm = hardwareMap.servo.get("leftArm");
         leftDrive = hardwareMap.dcMotor.get("left");
         rightDrive = hardwareMap.dcMotor.get("right");
-        //middleDrive = hardwareMap.dcMotor.get("Hdrive");
-        liftDrive = hardwareMap.dcMotor.get("lift");
+        middleDrive = hardwareMap.dcMotor.get("Hdrive");
+        //liftDrive = hardwareMap.dcMotor.get("lift");
 
         // Tell the driver that initialization is complete.
         //telemetry.addData("Status", "Initialized");
@@ -92,7 +92,7 @@ public class MainDrive3860 extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
-        //double middlePower;
+        double middlePower;
         //double liftPower;
         double gp1Rtrigger;
         double gp1Ltrigger;
@@ -104,7 +104,7 @@ public class MainDrive3860 extends OpMode
         gp2Ltrigger = gamepad2.left_trigger;
         gp2Rtrigger = gamepad2.right_trigger;
 
-        if (gamepad2.right_trigger >= 0.1) {
+        /*if (gamepad2.right_trigger >= 0.1) {
 
             rightArm.setPosition(0);
             leftArm.setPosition(1);
@@ -116,7 +116,7 @@ public class MainDrive3860 extends OpMode
             rightArm.setPosition(.8);
             leftArm.setPosition(.2);
 
-        }
+        }*/
 
 
         // Tank Mode uses one stick to control each wheel.
@@ -125,7 +125,7 @@ public class MainDrive3860 extends OpMode
         rightPower = -gamepad1.right_stick_y;
         //middlePower = -gamepad1.left_stick_x;
 
-        if (gamepad2.left_stick_y >= 0.3){
+        /*if (gamepad2.left_stick_y >= 0.3){
 
             liftDrive.setPower(-.2);
 
@@ -143,9 +143,9 @@ public class MainDrive3860 extends OpMode
 
             liftDrive.setPower(0);
 
-        }
+        }*/
 
-          /*if (gamepad1.right_trigger >= 0.1) {
+        if (gamepad1.right_trigger >= 0.1) {
 
             middleDrive.setPower(-1);
 
@@ -157,7 +157,7 @@ public class MainDrive3860 extends OpMode
 
             middleDrive.setPower(0);
 
-        }*/
+        }
 
 
 
@@ -167,7 +167,7 @@ public class MainDrive3860 extends OpMode
 
         // Show the elapsed game time and wheel power.
         telemetry.addLine("FTC 3860 Main Drive Program");
-        telemetry.addLine("Last Updated: 12/2/17");
+        telemetry.addLine("Last Updated: 12/14/17");
         telemetry.addLine("Last Updated By: Matthew V");
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);

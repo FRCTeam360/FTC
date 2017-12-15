@@ -3,28 +3,28 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by user on 12/2/2017.
  */
-        import android.app.Activity;
-        import android.graphics.Color;
-        import android.view.View;
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.hardware.DcMotor;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
-        import com.qualcomm.robotcore.hardware.Servo;
-        import com.qualcomm.robotcore.hardware.ColorSensor;
-        import com.qualcomm.robotcore.hardware.DistanceSensor;
-        import com.qualcomm.robotcore.util.ElapsedTime;
-        import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-        import java.util.Locale;
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import java.util.Locale;
 
 
 /**
  * Created by Gavin on 11/14/2017.
  */
 
-@Autonomous(name="Blue_Auto", group="Linear Opmode")
+@Autonomous(name="Blue_Auto_Top", group="Linear Opmode")
 
-public class Blue_Auto extends LinearOpMode {
+public class Blue_Auto_Top extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     double leftPower;
@@ -131,24 +131,24 @@ public class Blue_Auto extends LinearOpMode {
         rightPower = power;
 
 
-            switch (choice) {
-                case 1:
-                    leftDrive.setPower(leftPower);
-                    rightDrive.setPower(-rightPower);
-                    break;
-                case 2:
-                    rightDrive.setPower(-leftPower);
-                    rightDrive.setPower(rightPower);
-                    break;
-                case 3:
-                    leftDrive.setPower(leftPower);
-                    rightDrive.setPower(rightPower);
-                    break;
-                case 4:
-                    leftDrive.setPower(-leftPower);
-                    rightDrive.setPower(-rightPower);
-                    break;
-            }
+        switch (choice) {
+            case 1:
+                leftDrive.setPower(leftPower);
+                rightDrive.setPower(-rightPower);
+                break;
+            case 2:
+                rightDrive.setPower(-leftPower);
+                rightDrive.setPower(rightPower);
+                break;
+            case 3:
+                leftDrive.setPower(leftPower);
+                rightDrive.setPower(rightPower);
+                break;
+            case 4:
+                leftDrive.setPower(-leftPower);
+                rightDrive.setPower(-rightPower);
+                break;
+        }
         sleep(timeval);
         KillMotors();
         sleep(timeafterval);
@@ -227,6 +227,8 @@ public class Blue_Auto extends LinearOpMode {
                     colorFound = true;
                 }
             }
+            drive(3,0,1,4);
+
             break;
         }
 
