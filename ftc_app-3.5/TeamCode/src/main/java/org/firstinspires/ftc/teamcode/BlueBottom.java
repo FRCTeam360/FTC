@@ -222,8 +222,8 @@ public class BlueBottom extends LinearOpMode {
         while (opModeIsActive()) {
 
             servo(.5, 3, 1000);
-            sleep(2100);
-            drive(100, 2000, .5, false, 1);
+            //sleep(2100);
+            //drive(100, 2000, .5, false, 1);
             KillMotors();
 
             while (colorFound == false) {
@@ -237,16 +237,16 @@ public class BlueBottom extends LinearOpMode {
                 }
             }
 
-            drive(200, 1000, .5, false, 2);
+            /*drive(200, 1000, .5, false, 2);
             KillMotors();
             sleep(1000);
             drive(1000, 2000, 1, false, 4);
             KillMotors();
             sleep(1000);
             drive(600, 2000, 1, false, 1);
-            KillMotors();
+            KillMotors();*/
             sleep(1000);
-            servo(0.8, 4, 10000);
+            servo(.9, 4, 10000);
 
         }
     }

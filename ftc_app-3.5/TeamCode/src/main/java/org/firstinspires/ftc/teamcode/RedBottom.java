@@ -246,7 +246,7 @@ public class RedBottom extends LinearOpMode {
             drive(800, 2000, 1, false, 1);
             KillMotors();
             sleep(1000);
-            servo(0.8, 4, 10000);
+            servo(.9, 4, 10000);
 
         }
     }

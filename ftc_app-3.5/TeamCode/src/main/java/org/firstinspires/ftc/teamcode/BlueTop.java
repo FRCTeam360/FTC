@@ -245,7 +245,7 @@ public class BlueTop extends LinearOpMode {
             sleep(1000);
             drive(200, 2000, 1, false, 2);
             KillMotors();
-            servo(0.8, 4, 10000);
+            servo(.9, 4, 10000);
         }
     }
 }

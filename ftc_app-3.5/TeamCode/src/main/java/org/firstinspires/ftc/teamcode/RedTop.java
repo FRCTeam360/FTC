@@ -244,7 +244,7 @@ public class RedTop extends LinearOpMode {
             sleep(1000);
             drive(600, 2000, 1, false, 2);
             KillMotors();
-            servo(0.8, 4, 10000);
+            servo(.9, 4, 10000);
         }
     }
 }
