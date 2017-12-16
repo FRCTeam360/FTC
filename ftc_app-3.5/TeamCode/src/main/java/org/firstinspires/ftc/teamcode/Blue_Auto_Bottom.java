@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -23,7 +24,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="Blue_Auto_Bottom", group="Linear Opmode")
-
+@Disabled
 public class Blue_Auto_Bottom extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -215,6 +216,7 @@ public class Blue_Auto_Bottom extends LinearOpMode {
                     telemetry.update();
                     sleep(3000);
                     servo(1, 3, 1000);
+                    drive(3,0,1,3);
                     //servo(1, 4, 1000);
 
                     colorFound = true;
@@ -224,11 +226,10 @@ public class Blue_Auto_Bottom extends LinearOpMode {
                     telemetry.update();
                     servo(0, 3, 1000);
                     //servo(1, 4, 1000);
+                    drive(3,0,1,3);
                     colorFound = true;
                 }
             }
-
-            drive(3,0,1,3);
             break;
         }
 

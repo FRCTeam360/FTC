@@ -214,7 +214,7 @@ public class Blue_Auto extends LinearOpMode {
                     telemetry.addLine("Red");
                     telemetry.update();
                     sleep(3000);
-                    servo(1, 3, 1000);
+                    servo(0, 3, 1000);
                     //servo(1, 4, 1000);
 
                     colorFound = true;
@@ -222,7 +222,7 @@ public class Blue_Auto extends LinearOpMode {
                 else if (sensorColor.blue() >= 20 && sensorColor.blue() > sensorColor.red()) {
                     telemetry.addLine("Blue");
                     telemetry.update();
-                    servo(0, 3, 1000);
+                    servo(1, 3, 1000);
                     //servo(1, 4, 1000);
                     colorFound = true;
                 }

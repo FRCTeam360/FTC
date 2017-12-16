@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,8 +48,8 @@ public class MainDrive3860 extends OpMode
    // OpenGLMatrix lastLocation = null;
    // VuforiaLocalizer vuforia;
 
-    //Servo rightArm;
-    //Servo leftArm;
+    Servo jemArm;
+    Servo colorArm;
 
     private DcMotor rightDrive;
     private DcMotor leftDrive;
@@ -68,8 +69,8 @@ public class MainDrive3860 extends OpMode
 
        // parameters.vuforiaLicenseKey = "AbIVQOL/////AAAAGZkdkXA/G0ozhlFC64dTobAEKNYrYjGJj1qJRO1pj/9S+bA6tErf1GcodqHqYzSmXse47lIF+SUUJ+tMb3OD6rpDDzHdZWGQ20XWRrVn6wByfph4hPG3bNeyKXHp43D/VltBYxo+EK2J6bnpRLKIaEAhpVdhSSf4BUR86Hvi9Pduy7sswLJUpNbENvgs3AoP+RYh/KYF2CPtfWkM9FQAUIjriW2+6YUoKY62xW0LfUeR1VAUpNsIDsWFAVOZV/cKBplC31tWDuCgd3aKEjEZdBQElKQPu9zore+GsrkFZrhazIkgvULcfPMFaHtG1/LfpcgELIldFu8ITfdDqwYdQgYFJZlwlz433Blajj7xDYdT";
 
-        //rightArm = hardwareMap.servo.get("rightArm");
-        //leftArm = hardwareMap.servo.get("leftArm");
+        jemArm = hardwareMap.servo.get("jemArm");
+        colorArm = hardwareMap.servo.get("colorArm");
         leftDrive = hardwareMap.dcMotor.get("left");
         rightDrive = hardwareMap.dcMotor.get("right");
         middleDrive = hardwareMap.dcMotor.get("Hdrive");
@@ -78,11 +79,41 @@ public class MainDrive3860 extends OpMode
         // Tell the driver that initialization is complete.
         //telemetry.addData("Status", "Initialized");
         leftDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+
+
 
        // parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
        // this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
+    }
+
+    public void servo(double pos, int choice) {
+
+        switch (choice) {
+            /*case 1:
+                rightArm.setPosition(pos);
+                if (rightArm.getPosition() == pos) {
+                    sleep(sleep);
+                    break;
+                }
+            case 2:
+                leftArm.setPosition(pos);
+                if (leftArm.getPosition() == pos) {
+                    sleep(sleep);
+                    break;
+                }*/
+            case 3:
+                jemArm.setPosition(pos);
+                if (jemArm.getPosition() == pos) {
+                    break;
+                }
+            case 4:
+                colorArm.setPosition(pos);
+                if (colorArm.getPosition() == pos) {
+                    break;
+                }
+        }
     }
 
 
@@ -104,20 +135,8 @@ public class MainDrive3860 extends OpMode
         gp2Ltrigger = gamepad2.left_trigger;
         gp2Rtrigger = gamepad2.right_trigger;
 
-        /*if (gamepad2.right_trigger >= 0.1) {
-
-            rightArm.setPosition(0);
-            leftArm.setPosition(1);
-
-        }
-
-        if (gamepad2.left_trigger >= 0.1) {
-
-            rightArm.setPosition(.8);
-            leftArm.setPosition(.2);
-
-        }*/
-
+        servo(1, 3);
+        servo(.1, 4);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.

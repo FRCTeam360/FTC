@@ -1,31 +1,34 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
- * Created by Eric on 4/20/69
+ * Created by user on 12/2/2017.
  */
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import java.util.Locale;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+
 
 /**
  * Created by Gavin on 11/14/2017.
  */
 
-@Autonomous(name="RedBlue_Range_Auto", group="Linear Opmode")
-@Disabled
-public class RedBlue_Range_Auto extends LinearOpMode {
+@Autonomous(name="Red_Auto", group="Linear Opmode")
+
+public class Red_Auto extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     double leftPower;
@@ -33,7 +36,6 @@ public class RedBlue_Range_Auto extends LinearOpMode {
     private DcMotor leftDrive;
     private DcMotor rightDrive;
     //private DcMotor liftDrive;
-    ModernRoboticsI2cRangeSensor rangeSensor;
 
     //Servo leftArm;
     //Servo rightArm;
@@ -133,24 +135,24 @@ public class RedBlue_Range_Auto extends LinearOpMode {
         rightPower = power;
 
 
-        switch (choice) {
-            case 1:
-                leftDrive.setPower(leftPower);
-                rightDrive.setPower(-rightPower);
-                break;
-            case 2:
-                rightDrive.setPower(-leftPower);
-                rightDrive.setPower(rightPower);
-                break;
-            case 3:
-                leftDrive.setPower(leftPower);
-                rightDrive.setPower(rightPower);
-                break;
-            case 4:
-                leftDrive.setPower(-leftPower);
-                rightDrive.setPower(-rightPower);
-                break;
-        }
+            switch (choice) {
+                case 1:
+                    leftDrive.setPower(leftPower);
+                    rightDrive.setPower(-rightPower);
+                    break;
+                case 2:
+                    rightDrive.setPower(-leftPower);
+                    rightDrive.setPower(rightPower);
+                    break;
+                case 3:
+                    leftDrive.setPower(leftPower);
+                    rightDrive.setPower(rightPower);
+                    break;
+                case 4:
+                    leftDrive.setPower(-leftPower);
+                    rightDrive.setPower(-rightPower);
+                    break;
+            }
         sleep(timeval);
         KillMotors();
         sleep(timeafterval);
@@ -164,7 +166,6 @@ public class RedBlue_Range_Auto extends LinearOpMode {
         telemetry.update();
 
         //Map The Motors To The Expansion Hub
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
         leftDrive = hardwareMap.get(DcMotor.class, "left");
         rightDrive = hardwareMap.get(DcMotor.class, "right");
         //liftDrive = hardwareMap.get(DcMotor.class, "lift");
@@ -181,7 +182,6 @@ public class RedBlue_Range_Auto extends LinearOpMode {
 
         float hsvValues[] = {0F, 0F, 0F};
         boolean colorFound = false;
-        boolean rangeMove = false;
 
         telemetry.addData("Data", colorArm.getPosition());
         telemetry.update();
@@ -231,20 +231,6 @@ public class RedBlue_Range_Auto extends LinearOpMode {
                     colorFound = true;
                 }
             }
-
-            telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
-            telemetry.addData("raw optical", rangeSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
-            telemetry.addData("cm", "%.2f cm", rangeSensor.getDistance(DistanceUnit.CM));
-            telemetry.update();
-
-            while(rangeMove == false && opModeIsActive()){
-                if (rangeSensor.cmOptical() <= 12 * 2.54)
-
-                rangeMove = true;
-            }
-
-            drive(3,0,1,3);
             break;
         }
 
