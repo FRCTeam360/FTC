@@ -24,7 +24,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="Blue_Auto_Bottom", group="Linear Opmode")
-@Disabled
+
 public class Blue_Auto_Bottom extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -138,7 +138,7 @@ public class Blue_Auto_Bottom extends LinearOpMode {
                 rightDrive.setPower(-rightPower);
                 break;
             case 2:
-                rightDrive.setPower(-leftPower);
+                leftDrive.setPower(-leftPower);
                 rightDrive.setPower(rightPower);
                 break;
             case 3:
@@ -180,6 +180,9 @@ public class Blue_Auto_Bottom extends LinearOpMode {
         float hsvValues[] = {0F, 0F, 0F};
         boolean colorFound = false;
 
+        servo(1, 4, 1000);
+        servo(1, 3, 1000);
+
         telemetry.addData("Data", colorArm.getPosition());
         telemetry.update();
 
@@ -195,14 +198,14 @@ public class Blue_Auto_Bottom extends LinearOpMode {
             sleep(3000);
             //drive(100, 3000, .5, 1);
 
-            servo(0.7, 3, 1000);
+            servo(0.6, 3, 1000);
             telemetry.addLine("First");
             telemetry.addData("Jem arm position", jemArm.getPosition());
             telemetry.addData("Color arm position", colorArm.getPosition());
             telemetry.update();
             sleep(3000);
 
-            servo(0.5, 4, 1000);
+            servo(0.35, 4, 1000);
             telemetry.addLine("Second");
             telemetry.addData("Jem arm position", jemArm.getPosition());
             telemetry.addData("Color arm position", colorArm.getPosition());
@@ -211,28 +214,33 @@ public class Blue_Auto_Bottom extends LinearOpMode {
 
             while (colorFound == false && opModeIsActive()) {
                 colorDistance(1, 100, hsvValues);
-                if (sensorColor.red() >= 20 && sensorColor.red() > sensorColor.blue()) {
+                if (sensorColor.red() >= 50) {
                     telemetry.addLine("Red");
                     telemetry.update();
                     sleep(3000);
+                    servo(.8, 3, 1000);
+                    servo(1, 4, 1000);
                     servo(1, 3, 1000);
-                    drive(3,0,1,3);
-                    //servo(1, 4, 1000);
+
+                    drive(123000,1000,1,1);
 
                     colorFound = true;
                 }
-                else if (sensorColor.blue() >= 20 && sensorColor.blue() > sensorColor.red()) {
+                else if (sensorColor.blue() >= 50) {
                     telemetry.addLine("Blue");
                     telemetry.update();
-                    servo(0, 3, 1000);
-                    //servo(1, 4, 1000);
-                    drive(3,0,1,3);
+                    servo(.2, 3, 1000);
+                    servo(1, 4, 1000);
+                    servo(1, 3, 1000);
+
+                    drive(1000,1000,1,1);
+
                     colorFound = true;
                 }
             }
             break;
         }
-
+        //' LOL METh U87
         stop();
 
     }

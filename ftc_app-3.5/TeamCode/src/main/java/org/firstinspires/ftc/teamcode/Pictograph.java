@@ -69,7 +69,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  */
 
 @Autonomous(name="Auto with Pictograph", group ="Concept")
-
+@Disabled
 public class Pictograph extends LinearOpMode {
 
      DcMotor rightDrive;

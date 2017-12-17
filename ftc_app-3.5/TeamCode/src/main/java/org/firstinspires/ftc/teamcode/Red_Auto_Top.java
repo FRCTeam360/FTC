@@ -24,7 +24,7 @@ import java.util.Locale;
  */
 
 @Autonomous(name="Red_Auto_Top", group="Linear Opmode")
-@Disabled
+
 public class Red_Auto_Top extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -180,6 +180,8 @@ public class Red_Auto_Top extends LinearOpMode {
         float hsvValues[] = {0F, 0F, 0F};
         boolean colorFound = false;
 
+        servo(1, 4, 1000);
+
         telemetry.addData("Data", colorArm.getPosition());
         telemetry.update();
 
@@ -215,7 +217,7 @@ public class Red_Auto_Top extends LinearOpMode {
                     telemetry.addLine("Red");
                     telemetry.update();
                     sleep(3000);
-                    servo(1, 3, 1000);
+                    servo(.8, 3, 1000);
                     //servo(1, 4, 1000);
                     drive(3,0,1,3);
                     colorFound = true;
@@ -223,7 +225,7 @@ public class Red_Auto_Top extends LinearOpMode {
                 else if (sensorColor.blue() >= 20 && sensorColor.blue() > sensorColor.red()) {
                     telemetry.addLine("Blue");
                     telemetry.update();
-                    servo(0, 3, 1000);
+                    servo(.2, 3, 1000);
                     //servo(1, 4, 1000);
                     drive(3,0,1,3);
                     colorFound = true;

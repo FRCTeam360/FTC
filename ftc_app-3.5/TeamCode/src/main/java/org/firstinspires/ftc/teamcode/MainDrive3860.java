@@ -40,8 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="3860 Main Drive Program", group="Iterative Opmode")
 
-public class MainDrive3860 extends OpMode
-{
+public class MainDrive3860 extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -136,7 +135,7 @@ public class MainDrive3860 extends OpMode
         gp2Rtrigger = gamepad2.right_trigger;
 
         servo(1, 3);
-        servo(.1, 4);
+        servo(1, 4);
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
